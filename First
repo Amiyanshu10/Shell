@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Fetch the dynamic URL using lynx
+dynamic_url=$(lynx -dump "https://example.com/get_latest_url" | awk '/http/{print $2}')
+
+# Check if URL retrieval was successful
+if [ -z "$dynamic_url" ]; then
+    echo "Failed to retrieve dynamic URL."
+    exit 1
+fi
+
+# Print the dynamic URL
+echo "Dynamic URL: $dynamic_url"
+
+# Extract username and password from command-line arguments
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <username> <password>"
+    exit 1
+fi
+
+username=$1
+password=$2
+
+# Perform login
+login_result=$(curl -X POST -c cookies.txt -b cookies.txt -s \
+    -d "username=$username" -d "password=$password" \
+    "$dynamic_url/login")
+
+# Check if login was successful
+if [[ $login_result == *"Login successful"* ]]; then
+    echo "Login successful!"
+    # Do whatever you need after successful login
+else
+    echo "Login failed!"
+fi
+
+# Keep the script running for 10 seconds before terminating
+sleep 10
