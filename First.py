@@ -1,33 +1,18 @@
-import argparse
-import requests
+#!/bin/bash
 
-def login(username, password):
-    # Send login request and return session object
-    session = requests.Session()
-    login_data = {'username': username, 'password': password}
-    response = session.post('https://example.com/login', data=login_data)
-    # Check if login was successful
-    if response.status_code == 200:
-        return session
-    else:
-        print("Login failed")
-        return None
+# Website URL
+website_url="https://example.com/login"
 
-def fill_form(session, form_data):
-    # Parse form data from form.txt
-    # Fill the form fields and submit using session.post()
+# Username and password
+username="your_username"
+password="your_password"
 
-def main():
-    parser = argparse.ArgumentParser(description='Automate form filling')
-    parser.add_argument('username', type=str, help='Username for login')
-    parser.add_argument('password', type=str, help='Password for login')
-    args = parser.parse_args()
+# Perform login
+login_result=$(curl -s -c cookies.txt -b cookies.txt -d "username=$username" -d "password=$password" "$website_url")
 
-    session = login(args.username, args.password)
-    if session:
-        form_data = read_form_data('form.txt')
-        fill_form(session, form_data)
-
-if __name__ == '__main__':
-    main()
-
+# Check if login was successful
+if [[ $login_result == *"Login successful"* ]]; then
+    echo "Login successful!"
+else
+    echo "Login failed!"
+fi
