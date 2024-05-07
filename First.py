@@ -1,18 +1,26 @@
-#!/bin/bash
+import mechanize
 
-# Website URL
-website_url="https://example.com/login"
+# Create a browser object
+br = mechanize.Browser()
 
-# Username and password
-username="your_username"
-password="your_password"
+# Ignore robots.txt
+br.set_handle_robots(False)
 
-# Perform login
-login_result=$(curl -s -c cookies.txt -b cookies.txt -d "username=$username" -d "password=$password" "$website_url")
+# Open the website
+br.open("https://example.com/login")
+
+# Select the form
+br.select_form(nr=0)  # Assuming the login form is the first form on the page
+
+# Fill in the login credentials
+br.form['username'] = 'your_username'
+br.form['password'] = 'your_password'
+
+# Submit the form
+br.submit()
 
 # Check if login was successful
-if [[ $login_result == *"Login successful"* ]]; then
-    echo "Login successful!"
-else
-    echo "Login failed!"
-fi
+if br.geturl() == "https://example.com/dashboard":
+    print("Login successful!")
+else:
+    print("Login failed.")
