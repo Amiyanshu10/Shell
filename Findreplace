@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Usage:
+# ./replace_string.sh <directory_path> <old_string> <new_string>
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <directory_path> <old_string> <new_string>"
+    exit 1
+fi
+
+DIR_PATH="$1"
+OLD_STRING="$2"
+NEW_STRING="$3"
+
+if [ ! -d "$DIR_PATH" ]; then
+    echo "Error: Directory does not exist."
+    exit 1
+fi
+
+changed_files=0
+
+# Find all regular files under directory
+while IFS= read -r -d '' file; do
+    if grep -q "$OLD_STRING" "$file"; then
+        sed -i "s/${OLD_STRING//\//\\/}/${NEW_STRING//\//\\/}/g" "$file"
+        echo "Modified: $file"
+        ((changed_files++))
+    fi
+done < <(find "$DIR_PATH" -type f -print0)
+
+echo "----------------------------------"
+echo "Total files modified: $changed_files"
