@@ -1,0 +1,14 @@
+I’m working with the Arrow repository and I’d like to refactor part of the parser code to make it easier to read and maintain. The goal is to improve the internal structure of the code without changing any external behavior or adding new functionality. All existing tests should continue to pass exactly as they do now.
+Please focus mainly on the file arrow/parser.py.
+There are a few specific areas that could benefit from refactoring:
+The parse_iso() function currently handles many responsibilities in a single method (normalizing whitespace, validating separators, splitting date and time, building the format string, and handling timezones). It would be better to break this into smaller private helper functions such as:
+_normalize_datetime_string
+_validate_iso_dividers
+_split_date_and_time
+_build_iso_time_format
+_append_timezone_format
+The logic should stay exactly the same; the goal is simply to make the code easier to follow.
+Both parse_iso() and parse() contain similar logic for whitespace normalization. It would be good to extract this into a shared helper function such as _normalize_whitespace() to remove duplication while preserving the current behavior.
+The _parse_token() function contains a very long chain of if/elif statements for handling different token types (year, month, day, time components, timezone, etc.). This could be made cleaner by splitting the logic into smaller helper methods or grouping related parsing logic together.
+There is a section where month_number() can return None and the code currently uses a # type: ignore. Instead of suppressing the type check, it would be better to handle the None case explicitly and raise the appropriate parsing error.
+If possible, some of the dense logic inside _generate_pattern_re() could also be simplified by extracting smaller helper functions, as long as the behavior remains exactly the same.
