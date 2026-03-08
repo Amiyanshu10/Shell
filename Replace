@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <directory_path> <old_string> <new_string>"
+    exit 1
+fi
+
+DIR_PATH="$1"
+OLD_STRING="$2"
+NEW_STRING="$3"
+
+if [ ! -d "$DIR_PATH" ]; then
+    echo "Error: Directory '$DIR_PATH' does not exist."
+    exit 1
+fi
+
+changed_files=0
+
+while IFS= read -r -d '' file; do
+    if grep -q "$OLD_STRING" "$file"; then
+        sed -i "s/${OLD_STRING}/${NEW_STRING}/g" "$file"
+        echo "Updated: $file"
+        changed_files=$((changed_files + 1))
+    fi
+done < <(find "$DIR_PATH" -type f -print0)
+
+echo "Total files changed: $changed_files"
