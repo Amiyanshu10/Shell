@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+import sys
+import struct
+
+def calculate_checksum(data):
+    checksum = 0
+
+    # ensure data is multiple of 4
+    if len(data) % 4 != 0:
+        raise ValueError("File size must be multiple of 4 bytes")
+
+    for i in range(0, len(data), 4):
+        word = struct.unpack_from("<I", data, i)[0]  # little-endian uint32
+        checksum = (checksum + word) & 0xFFFFFFFF
+
+    return checksum
+
+
+def main():
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} input.bin output.bin")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+    with open(input_file, "rb") as f:
+        data = f.read()
+
+    checksum = calculate_checksum(data)
+
+    print(f"Checksum: 0x{checksum:08X}")
+
+    with open(output_file, "wb") as f:
+        f.write(data)
+        f.write(struct.pack("<I", checksum))  # append checksum
+
+    print(f"New file written: {output_file}")
+
+
+if __name__ == "__main__":
+    main()
