@@ -1,0 +1,41 @@
+Yes — good move 👍
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the test suite to improve maintainability and reduce duplication by converting repetitive test cases into table-driven tests and extracting common setup logic into reusable helper functions. Improve the readability and structure of the tests while keeping the changes minimal and focused. Do not change any test behavior, do not add or remove test cases, and do not modify production code. Ensure that all existing tests continue to pass and clearly indicate which test files were modified.
+
+
+---
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the internal transition handling logic to reduce duplication and improve clarity by identifying repeated logic across transition execution paths and extracting it into well-structured private helper functions. Simplify control flow where possible while preserving the exact behavior. Do not modify public APIs or introduce any functional changes. The goal is to improve maintainability without altering how transitions are executed.
+
+
+---
+
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the config.go file to improve internal readability and reduce duplication, particularly across methods such as Permit, PermitIf, and related configuration functions. Extract shared logic into helper functions and improve naming and structure where needed. Ensure that all refactoring is strictly internal, with no changes to public APIs or observable behavior.
+
+
+---
+
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the execution flow of entry, exit, and internal transition callbacks by identifying duplicated logic and consolidating it into reusable helper functions. Simplify nested control flow and improve clarity while ensuring that the exact execution order and behavior of callbacks remain unchanged. Do not introduce any new functionality or modify public interfaces.
+
+
+--
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the graph generation logic (such as ToGraph and related code) to improve modularity and readability by separating graph construction from string formatting. Extract helper functions for node and edge creation and reduce complexity in the existing implementation. Ensure that the output format of the generated graph remains exactly the same and that no new functionality is introduced.
+
+
+-
+
+You are given a Go repository implementing a finite state machine library: https://github.com/qmuntal/stateless. Refactor the test setup patterns across the repository to reduce duplication and improve consistency by extracting repeated state machine initialization logic into reusable helper functions. Ensure that the structure of tests becomes more uniform and easier to maintain while preserving all existing assertions and behaviors. Do not modify test logic or expected outputs.
+---
+
+🔥 Pro Tip (Important for your evaluation)
+
+These prompts are now:
+
+✅ Non-overlapping
+
+✅ Clearly refactor-only
+
+✅ Hard to short
